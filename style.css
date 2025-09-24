@@ -1,7 +1,8 @@
 :root{
     --stark-color : black;
     --light-color : gray;
-    
+    --background-color:white;
+
     --table-dimensions : 35vw;
     --mark-font-size: 6em;
     --wrapper-padding: 2%;
@@ -35,6 +36,10 @@
 #scoreboard{
     padding-left: var(--wrapper-padding);
 }
+#reset-button{
+    width: 50%;
+    margin: auto;    
+}
 #turn-display{
     padding-left: var(--wrapper-padding);
 }
@@ -49,11 +54,26 @@ table {
     border-collapse: collapse;
     border-color: var(--light-color);
     font-size: var(--mark-font-size);
+    table-layout: fixed;
 }
 
 table td{
     border-color: var(--light-color);
     text-align: center;
+}
+table td *{
+    border-style: solid;
+    border-color: red;
+}
+table td button{
+    width: 100%;
+    height: 100%;
+    color: transparent;
+    background-color: transparent;
+    border-style: none;
+}
+table td button:hover{
+    cursor: pointer;
 }
 table td[id="0"]{
     border-right-style: solid;
