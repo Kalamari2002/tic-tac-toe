@@ -1,3 +1,5 @@
+import * as socketLogic from "./socketLogic.js"
+
 const markMap = {
     0 : ['l_c', 't_r', 'l_d'],
     1 : ['m_c', 't_r'],
@@ -50,6 +52,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
             selectCell(i);
         });
     }
+
+    socketLogic.receiveMoves();
 });
 
 function assignButton(idx){
@@ -104,6 +108,9 @@ function checkBoard(cell){
     const m = markMap[cell];
     const val = turn == 0 ? 1 : -1;
     placedMarks++;
+    
+    socketLogic.sendMoves(cell);
+
     for(let i = 0; i < m.length; i++){
         winningWays[m[i]] += val;
         if(winningWays[m[i]] == (3 * val)){
