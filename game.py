@@ -5,7 +5,6 @@ PLAYER1, PLAYER2 = "X", "O"
 class Game:
 
     def __init__(self):
-        self.turn = 0
         self.placedMarks = 0
         self.gameEnded = False
         self.wins = [0,0]
@@ -35,10 +34,38 @@ class Game:
             'l_d' : 0,
             'r_d' : 0
         }
-        
+
+    @property
+    def lastPlayer(self):
+        return PLAYER1 if self.placedMarks % 2 else PLAYER2
+    
     def resetGame(self):
-        self.turn = 0
         self.placedMarks = 0
         self.gameEnded = False
         for way in self.winningWays:
             self.winningWays[way] = 0
+
+    def endGame(self, winner):
+        self.gameEnded = True
+        
+        if winner == None:
+            return
+        
+        idx = 0 if winner == PLAYER1 else 1
+        self.wins[idx] += 1
+
+    def selectCell(self, cell, player):
+        if self.gameEnded:
+            raise RuntimeError("Game has ended")
+        if player == self.lastPlayer:
+            raise RuntimeError("Not your turn")
+        
+        m = self.markMap[cell]
+        val = 1 if player == PLAYER1 else -1
+        self.placedMarks += 1
+        
+        for i in range(len(m)):
+            self.winningWays[m[i]] += val
+            if self.winningWays[m[i]] == (3 * val):
+                return True
+        return False
